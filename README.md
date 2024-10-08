@@ -1,1 +1,1 @@
-#NextJS 14 스터디
+# NextJS 14 스터디

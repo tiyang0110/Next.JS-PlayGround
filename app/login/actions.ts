@@ -24,6 +24,8 @@ const formSchema = z.object({
   // 
 });
 
+
+// region 로그인 처리
 export const login = async (preveState: any, formData: FormData) => {
   const data = {
     email: formData.get('email'),
@@ -48,10 +50,7 @@ export const login = async (preveState: any, formData: FormData) => {
     const ok = await bcrypt.compare(result.data.password, user!.password ?? "");
 
     if(ok){
-      const session = await getSession();
-      session.id = user!.id;
-      await session.save();
-
+      await SetSession(user!.id);
       redirect('/profile');
     }else{
       return {
@@ -63,3 +62,18 @@ export const login = async (preveState: any, formData: FormData) => {
     }
   }
 }
+
+// region 세션 저장
+export const SetSession = async (id:number) => {
+  try{
+    const session = await getSession();
+    session.id = id;
+    await session.save();
+  }catch(e){
+    console.log(e);
+    return false;
+  }
+
+  return true;
+}
+

@@ -2,18 +2,17 @@
 
 import Button from "@/components/button";
 import Input from "@/components/input";
-import { smsLogin } from "./actions";
+import { smsLogin } from "./sms/actions";
 import { useFormState } from "react-dom";
 
 const initialState = {
   token: false,
-  error: undefined
+  error: undefined,
+  phoneNumber: null
 }
 
 export default function SMSLogin(){
   const [state, action] = useFormState(smsLogin, initialState);
-
-  console.log(state);
 
   return (
     <div className="flex flex-col gap-10 py-8 px-6">

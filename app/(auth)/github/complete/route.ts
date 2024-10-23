@@ -1,8 +1,8 @@
-import { SetSession } from "@/app/login/actions";
+import { SetSession } from "@/app/(auth)/login/actions";
 import db from "@/lib/db";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
-import { AddGithubUser, getAccessTokenData, getGithubUserData, getGithubUserEmails } from "../../../lib/github";
+import { AddGithubUser, getAccessTokenData, getGithubUserData, getGithubUserEmails } from "../../../../lib/github";
 
 export async function GET(request: NextRequest){
   const code = request.nextUrl.searchParams.get('code');

@@ -4,9 +4,8 @@ import twilio from "twilio";
 import db from "@/lib/db";
 import { redirect } from "next/navigation";
 import validator from "validator";
-import { z } from "zod";
+import { typeToFlattenedError, z } from "zod";
 import crypto from 'crypto';
-import getSession from "@/lib/session";
 import { SetSession } from "../login/actions";
 
 const phoneSchema = z.string().trim().refine((phoneNumber) => validator.isMobilePhone(phoneNumber, 'ko-KR'), '잘못된 핸드폰 번호입니다.');
@@ -26,7 +25,8 @@ const tokenSchema = z.coerce.number().min(100000).max(999999).refine(tokenExists
 
 interface ActionState {
   token: boolean;
-  phoneNumber: string;
+  error?: typeToFlattenedError<string, string>;
+  phoneNumber?: FormDataEntryValue | string | null;
 }
 
 async function getToken(){
@@ -43,14 +43,11 @@ async function getToken(){
   }
 }
 
-export async function smsLogin(prevState: ActionState, formData: FormData){
+export async function smsLogin(prevState: ActionState | undefined, formData: FormData){
   const phoneNumber = formData.get('phoneNumber'),
         token = formData.get('token');
 
-  console.log('pn: ', formData);
-  console.log('pn2: ', prevState);
-
-  if(!prevState.token){
+  if(!prevState!.token){
     const result = phoneSchema.safeParse(phoneNumber);
 
     if(!result.success){
@@ -68,9 +65,6 @@ export async function smsLogin(prevState: ActionState, formData: FormData){
       });
 
       const token = await getToken();
-
-      console.log('oinin=== inin');
-      console.log(result.data);
 
       await db.sMSToken.create({
         data: { token, user: {
@@ -102,7 +96,7 @@ export async function smsLogin(prevState: ActionState, formData: FormData){
     if(!result.success){
       return {
         token: true,
-        phoneNumber: prevState.phoneNumber,
+        phoneNumber: prevState!.phoneNumber,
         error: result.error.flatten()
       };
     }else{
@@ -110,7 +104,7 @@ export async function smsLogin(prevState: ActionState, formData: FormData){
         where: {
           token: result.data.toString(),
           user: {
-            phone: prevState.phoneNumber
+            phone: prevState!.phoneNumber as string
           }
         },
         select: {

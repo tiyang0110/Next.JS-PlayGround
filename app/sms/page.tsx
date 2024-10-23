@@ -25,7 +25,7 @@ export default function SMSLogin(){
         { state?.token ? (
           <Input key={1} name="token" type="number" placeholder="Verification code" required minLength={100000} maxLength={999999} errors={state.error?.formErrors} /> 
         ) : (
-          <Input key={2} name="phoneNumber" type="number" placeholder="Phone number" required errors={state.error?.formErrors} />
+          <Input key={2} name="phoneNumber" type="number" placeholder="Phone number" required errors={state?.error?.formErrors} />
         )}
         <Button text={state?.token ? '인증하기' : '인증 문자 보내기'} />
       </form>

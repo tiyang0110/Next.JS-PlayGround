@@ -5,6 +5,7 @@ import { PhotoIcon } from "@heroicons/react/24/solid"
 import Button from "@/components/button"
 import { useState } from "react";
 import { uploadProduct } from "./actions";
+import { useFormState } from "react-dom";
 
 export default function AddProduct(){
   const [preview, setPreview] = useState("");
@@ -30,21 +31,26 @@ export default function AddProduct(){
     setPreview(url);
   }
 
+  const [state, action] = useFormState(uploadProduct, null);
+
   return (
     <div>
-      <form action={uploadProduct} className="p-5 flex flex-col gap-5">
+      <form action={action} className="p-5 flex flex-col gap-5">
         <label htmlFor="photo" className="border-2 aspect-square flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed cursor-pointer bg-center" style={{ backgroundImage: `url(${preview})`}}>
           {preview ? null : (
             <>
               <PhotoIcon className="w-20" />
-              <div className="text-neutral-400 text-sm">사진을 추가해주세요.</div>
+              <div className="text-neutral-400 text-sm">
+                사진을 추가해주세요.
+                {state?.fieldErrors.photo}
+              </div>
             </>
           )}
         </label>
         <input onChange={onImageChange} type="file" className="hidden" name="photo" id="photo"/>
-        <Input name="title" required placeholder="제목" type="text" />
-        <Input name="price" required placeholder="가격" type="number" />
-        <Input name="description" required placeholder="자세한 설명" type="text" />
+        <Input name="title" required placeholder="제목" type="text" errors={state?.fieldErrors.title} />
+        <Input name="price" required placeholder="가격" type="number" errors={state?.fieldErrors.price} />
+        <Input name="description" required placeholder="자세한 설명" type="text" errors={state?.fieldErrors.description} />
         <Button text="작성완료" />
       </form>
     </div>

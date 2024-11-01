@@ -51,8 +51,6 @@ export default async function ProductDetail({params}:{
 
   const isOwner = await getIsOwner(product.userId);
 
-  console.log(product);
-
   const deleteProduct = async () => {
     "use server";
 

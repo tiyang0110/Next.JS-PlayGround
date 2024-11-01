@@ -1,33 +1,21 @@
-"use client";
+import Link from "next/link";
+import '@/lib/db';
 
-import Button from "@/components/button";
-import Input from "@/components/input";
-import { smsLogin } from "./sms/actions";
-import { useFormState } from "react-dom";
-
-const initialState = {
-  token: false,
-  error: undefined,
-  phoneNumber: null
-}
-
-export default function SMSLogin(){
-  const [state, action] = useFormState(smsLogin, initialState);
-
+export default function Home() {
   return (
-    <div className="flex flex-col gap-10 py-8 px-6">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-2xl *:font-medium">SMS Login.</h1>
-        <h2 className="text-xl">Verify your phone number.</h2>
+    <div className="flex flex-col items-center justify-between min-h-screen p-6">
+      <div className="my-auto *:font-medium flex flex-col items-center gap-2">
+        <span className="text-9xl">🥕</span>
+        <h1 className="text-4xl">당근</h1>
+        <h2 className="text-2xl">당근 마켓에 어서오세요</h2>
       </div>
-      <form action={action} className="flex flex-col gap-3">
-        { state?.token ? (
-          <Input key={1} name="token" type="number" placeholder="Verification code" required minLength={100000} maxLength={999999} errors={state.error?.formErrors} /> 
-        ) : (
-          <Input key={2} name="phoneNumber" type="number" placeholder="Phone number" required errors={state?.error?.formErrors} />
-        )}
-        <Button text={state?.token ? '인증하기' : '인증 문자 보내기'} />
-      </form>
+      <div className="flex flex-col items-center gap-3 w-full">
+        <Link href="/create-account" className="primary-btn py-2.5 text-lg">시작하기</Link>
+        <div className="flex gap-2">
+          <span>이미 계정이 있나요?</span>
+          <Link href="/login" className="hover:underline hover:underline-offset-4">로그인</Link>
+        </div>
+      </div>
     </div>
-  )
+  );
 }

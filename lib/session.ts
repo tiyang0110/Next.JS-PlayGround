@@ -1,5 +1,5 @@
-import { getIronSession } from "iron-session";
-import { cookies } from "next/headers";
+import { getIronSession } from "@/node_modules/iron-session/dist/index.cjs";
+import { cookies } from "@/node_modules/next/headers";
 
 interface SessionContent {
   id?: number;

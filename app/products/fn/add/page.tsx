@@ -6,6 +6,7 @@ import Button from "@/components/button"
 import { useState } from "react";
 import { uploadProduct } from "./actions";
 import { useFormState } from "react-dom";
+import Link from "next/link";
 
 export default function AddProduct(){
   const [preview, setPreview] = useState("");
@@ -53,6 +54,11 @@ export default function AddProduct(){
         <Input name="description" required placeholder="자세한 설명" type="text" errors={state?.fieldErrors.description} />
         <Button text="작성완료" />
       </form>
+      <Link href="/products">
+        <div className="px-5 pb-5">
+          <Button text="목록으로" />
+        </div>
+      </Link>
     </div>
   )
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { PhotoIcon, XMarkIcon } from "@heroicons/react/24/solid"
 import { useRouter } from "next/navigation";
 

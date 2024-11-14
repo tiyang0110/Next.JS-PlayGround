@@ -1,11 +1,11 @@
 "use server";
 
-import { PASSWORD_MIN_LENGTH, PASSWORD_REGEX, PASSWORD_REGEX_ERROR } from '@/lib/constants';
 import db from '@/lib/db';
 import {z} from 'zod';
 import bcrypt from 'bcrypt';
 import { redirect } from 'next/navigation';
 import getSession from '@/lib/session';
+import { PASSWORD_MIN_LENGTH, PASSWORD_REGEX, PASSWORD_REGEX_ERROR } from '@/lib/constants';
 
 const checkUsername = (username:string) => !username.includes('potato');
 const checkPasswords = ({password, confirmPassword}:{password:string, confirmPassword:string}) => password === confirmPassword;
@@ -65,7 +65,6 @@ export async function createAccount(prevState:any, formData:FormData){
 
   const result = await formSchema.spa(data);
 
-  console.log(result);
   if(!result.success){
     return result.error.flatten();
   }else{

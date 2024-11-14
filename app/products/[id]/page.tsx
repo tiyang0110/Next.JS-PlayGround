@@ -62,7 +62,7 @@ export default async function ProductDetail({params}:{
   }
 
   return (
-    <div>
+    <div className="overflow-y-auto">
       <div className="relative aspect-square">
         <Image fill src={product.photo} alt={product.title} className="object-cover"/>
       </div>
@@ -78,7 +78,7 @@ export default async function ProductDetail({params}:{
       </div>
       <div className="p-5">
         <h1 className="text-2xl font-semibold">{product.title}</h1>
-        <p>{product.description}</p>
+        <p className="mb-24">{product.description}</p>
       </div>
       <div className="fixed w-full bottom-0 left-0 p-5 pb-10 bg-neutral-800 flex justify-between items-center">
         <span className="font-semibold text-xl">{formatToWon(product.price)}원</span>

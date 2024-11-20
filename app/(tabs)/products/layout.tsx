@@ -3,9 +3,9 @@ export default function ProductsLayout({ children, modal }:{
   modal: React.ReactNode
 }){
   return (
-    <>
+    <div className="flex flex-col overflow-y-auto scrollbar-hide">
       {children}
       {modal}
-    </>
+    </div>
   )
 }

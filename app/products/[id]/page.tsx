@@ -1,18 +1,19 @@
 import db from "@/lib/db";
 import Image from 'next/image';
-import getSession from "@/lib/session";
+// import getSession from "@/lib/session";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { formatToWon } from "@/lib/utils";
 import { UserIcon } from "@heroicons/react/24/solid";
-import { useState } from "react";
 
-async function getIsOwner(userId:number){
-  const session = await getSession();
+async function getIsOwner(){
+  // const session = await getSession();
 
-  if(session.id){
-    return session.id === userId;
-  }
+  // if(session.id){
+  //   return session.id === userId;
+  // }
+
+  
 
   return false;
 }
@@ -33,6 +34,30 @@ async function getProduct(id:number){
   return product;
 }
 
+// const getCachedProduct = nextCache(getProduct, ['product-detail'], {
+//   tags: ['product-detail']
+// });
+
+async function getProductTitle(id:number){
+  const product = await db.product.findUnique({
+    where: { id },
+    select: { title: true }
+  });
+
+  return product;
+}
+
+// const getCachedProductTitle = nextCache(getProductTitle, ['product-title'], {
+//   tags: ['product-title'] 
+// })
+
+export async function generateMetadata({ params } : { params: { id: string }}){
+  const product = await getProductTitle(Number(params.id));
+
+  return {
+    title: `${product?.title} 상세`
+  }
+}
 
 export default async function ProductDetail({params}:{
   params: {
@@ -49,7 +74,8 @@ export default async function ProductDetail({params}:{
 
   if(!product) return notFound();
 
-  const isOwner = await getIsOwner(product.userId);
+  // const isOwner = await getIsOwner(product.userId);
+  const isOwner = await getIsOwner();
 
   const deleteProduct = async () => {
     "use server";
@@ -94,4 +120,12 @@ export default async function ProductDetail({params}:{
       </div>
     </div>
   )
+}
+
+export async function generateStaticParams(){
+  const products = await db.product.findMany({
+    select: { id: true }
+  });
+
+  return products.map((product) => ({ id: product.id + "" }));
 }

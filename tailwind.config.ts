@@ -8,7 +8,8 @@ const config: Config = {
   ],
   theme: {},
   plugins: [
-    require('@tailwindcss/forms')
+    require('@tailwindcss/forms'),
+    require('tailwind-scrollbar-hide')
   ],
 };
 export default config;

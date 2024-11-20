@@ -1,6 +1,5 @@
 "use server";
 
-import twilio from "twilio";
 import db from "@/lib/db";
 import { redirect } from "next/navigation";
 import validator from "validator";

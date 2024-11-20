@@ -1,12 +1,11 @@
-import AlarmBar from "@/components/alarm-bar";
 import TabBar from "@/components/tab-bar";
+
 
 export default function TabLayout({ children }:{children: React.ReactNode}){
   return (
-    <>
-      <AlarmBar />
+    <div className="h-full grid grid-rows-[1fr_80px]">
       {children}
       <TabBar />
-    </>
+    </div>
   )
 }
